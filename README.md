@@ -32,7 +32,7 @@ Hard instances generally exhibit low area waste (\epsilon) between 2% and 7%, se
 
 This repository cannot repliicate the performance (number of explored nodes for infeasible instances) of the original paper, not even the performance of the simplest version without block equivalence and pseudo symmetry reductions. So, there might still be a bug in the code, inefficiencies, or invalid assumptions. If you happen to have knowledge about implementation details of the original paper, please do get in touch.
 
-The constraint programming appraoch of Clautiaux et al. (2008) is often cited to achieve the best performance to date. However, we couldn't reproduce their performance, even with a comparabele model using modern soft- and hardware. For details please refer to https://github.com/google/or-tools/discussions/3177.
+The constraint programming appraoch of Clautiaux et al. (2008) is often cited to achieve the best performance to date. However, we couldn't reproduce their performance, even with a comparable model using modern soft- and hardware. For details please refer to https://github.com/google/or-tools/discussions/3177.
 
 # Future research and pointers
 
