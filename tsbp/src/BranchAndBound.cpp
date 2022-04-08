@@ -8,8 +8,8 @@
 #include <numeric>
 #include <string>
 
-////#include "../external/taskflow/taskflow/taskflow.hpp"
 #include "ltalloc/ltalloc.h"
+#include "taskflow/taskflow/taskflow.hpp"
 
 namespace tsbp
 {
@@ -198,9 +198,9 @@ SearchStatus LeftmostActiveOnly::Solve()
     }
     else if (numberOfThreads >= 1)
     {
-        ////searchStatus = SolveParallelTaskflow();
+        searchStatus = SolveParallelTaskflow();
         // Slightly inferior performance compared to taskflow with this memory allocator. Cannot limit threads.
-        searchStatus = SolveParallelNative();
+        ////searchStatus = SolveParallelNative();
     }
     else
     {
@@ -309,7 +309,6 @@ SearchStatus LeftmostActiveOnly::SolveParallelNative()
     return status;
 }
 
-/*
 SearchStatus LeftmostActiveOnly::SolveParallelTaskflow()
 {
     std::atomic<std::chrono::steady_clock::time_point> begin = std::chrono::steady_clock::now();
@@ -330,8 +329,9 @@ SearchStatus LeftmostActiveOnly::SolveParallelTaskflow()
 
     for (size_t itemId: this->branchingOrder)
     {
-        tf::Task itemSpecificBranch = taskflow.emplace([&, itemId]()
-                                                       {
+        tf::Task itemSpecificBranch = taskflow.emplace(
+            [&, itemId]()
+            {
                     // TODO.Performance: write copy assignment constructor for Node to run the preprocess only once. It has its copy assignment constructor disabled because it has a unique_ptr member.
                     ////LeftmostActiveOnly lmaoSubtree = *this;
                     LeftmostActiveOnly lmao(this->parameters);
@@ -408,7 +408,6 @@ SearchStatus LeftmostActiveOnly::SolveParallelTaskflow()
 
     return status;
 }
-*/
 
 void LeftmostActiveOnly::UpdateSolverStatistics(SolverStatistics& const statistics) const
 {
@@ -1467,8 +1466,8 @@ SearchStatus TwoStepBranchingProcedure::Solve()
     }
     else if (numberOfThreads >= 1)
     {
-        ////searchStatus = SolveParallelTaskflow();
-        searchStatus = SolveParallelNative();
+        searchStatus = SolveParallelTaskflow();
+        ////searchStatus = SolveParallelNative();
     }
     else
     {
@@ -1486,7 +1485,6 @@ SearchStatus TwoStepBranchingProcedure::Solve()
     return searchStatus;
 }
 
-/*
 SearchStatus TwoStepBranchingProcedure::SolveParallelTaskflow()
 {
     std::atomic<std::chrono::steady_clock::time_point> begin = std::chrono::steady_clock::now();
@@ -1511,8 +1509,9 @@ SearchStatus TwoStepBranchingProcedure::SolveParallelTaskflow()
 
     for (int itemId: this->branchingOrder)
     {
-        tf::Task itemSpecificBranch = taskflow.emplace([&, itemId]()
-                                                       {
+        tf::Task itemSpecificBranch = taskflow.emplace(
+            [&, itemId]()
+            {
                     // TODO.Performance: write copy assignment constructor for Node to run the preprocess only once. It has its copy assignment constructor disabled because it has a unique_ptr member.
                     ////LeftmostActiveOnly lmao = *this;
                     TwoStepBranchingProcedure tsbp(this->parameters);
@@ -1594,7 +1593,6 @@ SearchStatus TwoStepBranchingProcedure::SolveParallelTaskflow()
 
     return status;
 }
-*/
 
 SearchStatus TwoStepBranchingProcedure::SolveParallelNative()
 {
@@ -1688,7 +1686,7 @@ SearchStatus TwoStepBranchingProcedure::SolveParallelNative()
     std::cout << "Termination delay = " << std::chrono::duration_cast<std::chrono::seconds>(endParallelFor - endLast.load()).count() << "s\n";
 
     std::cout << "Total explored nodes = " + std::to_string(exploredNodes.load()) + "\n";
-    
+
     this->statistics.NodeCountTSBP = exploredNodes.load();
     this->statistics.NodeCountLMAO = exploredLMAO.load();
     this->statistics.TimeMemoryDeallocation = std::chrono::duration_cast<std::chrono::milliseconds>(endParallelFor - endLast.load()).count();

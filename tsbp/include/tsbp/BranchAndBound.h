@@ -158,7 +158,7 @@ class LeftmostActiveOnly : public IBranchAndBoundSolver
   public:
     SearchStatus Solve() override;
     SearchStatus SolveSequential();
-    ////SearchStatus SolveParallelTaskflow();
+    SearchStatus SolveParallelTaskflow();
     SearchStatus SolveParallelNative();
 
     SearchStatus GetSearchStatus() const override { return this->searchStatus; };
@@ -313,7 +313,7 @@ class TwoStepBranchingProcedure : public IBranchAndBoundSolver
   public:
     SearchStatus Solve() override;
     SearchStatus SolveSequential();
-    ////SearchStatus SolveParallelTaskflow();
+    SearchStatus SolveParallelTaskflow();
     SearchStatus SolveParallelNative();
 
     SearchStatus GetSearchStatus() const override { return this->searchStatus; };
