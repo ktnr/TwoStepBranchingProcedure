@@ -2,7 +2,7 @@
 
 This repository is a reproduction of the nested branch-and-bound algorithm by Clautiaux, Carlier and Moukrim (2007) to solve two-dimensional orthogonal packing problems (2D-OPP). 
 
-The 2D-OPP asks, given a bin and non-rotatable items, can the items be placed in the bin without overlapping? The 2D-OPP is an important subproblem in many combinatorial optimization problems and, despite its simple formulation, is notoriously difficult to solve. There are instances with just 20-30 items that cannot be proven to be feasible or infeasible.
+The 2D-OPP asks, given a bin and non-rotatable items, can the items be placed in the bin without overlapping? The 2D-OPP is an important subproblem in many combinatorial optimization problems and, despite its simple formulation, is notoriously difficult to solve. There are instances with just 20-30 items that cannot be proven to be feasible or infeasible with current methods.
 
 # Algorithmic outline
 
@@ -15,9 +15,9 @@ The left-most active only algorithm can also be called as an independent solutio
 
 # Improvements
 
-The original paper describes two symmetry reductions in the outer branch-and-bound tree: pseudo symmetry and block equivalence. These procedures are rather complex and not implemented. Instead, a different, simple but effective symmetry reduction technique is implemented, which covers the same symmetry reductions as pseudo-symmetry and many of block equivalence. In fact, it covers all pseudo-symmetries and all pair-wise block equivalence reductions. Merely block equivalences with three or more blocks, where blocks that do not contain the domain reduced item can be swapped, are not covered.
+The original paper describes two symmetry reductions in the outer branch-and-bound tree: pseudo symmetry and block equivalence. These procedures are rather complex and are not implemented. Instead, a different, simple but effective symmetry reduction technique is implemented, which covers the same symmetry reductions as pseudo-symmetry and many of block equivalence. In fact, it covers all pseudo-symmetries and all pair-wise block equivalence reductions.
 
-The branch-and-bound algorithm implicitly enumerates all normal patterns, cp. Herz (19XX) resp. Beasely (1985). However, the placements still contain rotational symmetries. A simple way to exclude those symmetries is by applying a domain reduction according to Soh et al. (2010) to a single item, i.e., restricting the feasible placement points of a single item to the lower left corner of the bin. 
+The branch-and-bound algorithm implicitly enumerates all normal patterns, cp. Herz (1972) resp. Beasely (1985). However, the placements still contain rotational symmetries. A simple way to exclude those symmetries is by applying a domain reduction according to Soh et al. (2010) to a single item, i.e., restricting the feasible placement points of a single item to the lower left corner of the bin. 
 This is valid because any feasible solution can be transformed into a solution where any single item is within its reduced domain. The proof is analogous to the one of preprocessing step 1 in Côté and Iori (2018). 
 Thereby, domain reduction covers all pair-wise block equivalence reductions. Merely block equivalences with three or more blocks, where blocks that do not contain the domain reduced item can be swapped, are not covered.
 Domain reduction is also applicable to the inner branch-and-bound.
