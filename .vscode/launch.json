@@ -1,0 +1,53 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // From: https://vscode-debug-specs.github.io/cpp/ 
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Launch Debug (Windows)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tsbp-cli/Debug/tsbp.exe",
+            "args": [
+                "-i",
+                "${workspaceFolder}/data/input/CJCM08/",
+                "-f",
+                "E00N10.json",
+                "-o",
+                "${workspaceFolder}/data/output/"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal"
+        },
+        {
+            "name": "Launch Debug (Linux)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tsbp-cli/Debug/tsbp",
+            "args": [
+                "-i",
+                "${workspaceFolder}/data/input/CJCM08/",
+                "-f",
+                "E00N10.json",
+                "-o",
+                "${workspaceFolder}/data/output/"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal"
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+{
+    "Name": "E10N10",
+    "Container": {
+        "Dx": 20,
+        "Dy": 20,
+        "Area": 400
+    },
+    "Items": [
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 6,
+            "Dy": 11,
+            "Area": 66,
+            "ExternId": 0
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 4,
+            "Dy": 7,
+            "Area": 28,
+            "ExternId": 1
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 14,
+            "Area": 14,
+            "ExternId": 2
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 5,
+            "Dy": 3,
+            "Area": 15,
+            "ExternId": 3
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 8,
+            "Area": 8,
+            "ExternId": 4
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 11,
+            "Area": 11,
+            "ExternId": 5
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 5,
+            "Area": 5,
+            "ExternId": 6
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 13,
+            "Area": 13,
+            "ExternId": 7
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 13,
+            "Dy": 5,
+            "Area": 65,
+            "ExternId": 8
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 15,
+            "Dy": 9,
+            "Area": 135,
+            "ExternId": 9
+        }
+    ]
+}

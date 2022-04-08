@@ -1,0 +1,194 @@
+{
+    "Name": "E00X23",
+    "Container": {
+        "Dx": 20,
+        "Dy": 20,
+        "Area": 400
+    },
+    "Items": [
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 9,
+            "Dy": 3,
+            "Area": 27,
+            "ExternId": 0
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 15,
+            "Dy": 4,
+            "Area": 60,
+            "ExternId": 1
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 9,
+            "Dy": 3,
+            "Area": 27,
+            "ExternId": 2
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 17,
+            "Dy": 2,
+            "Area": 34,
+            "ExternId": 3
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 6,
+            "Dy": 11,
+            "Area": 66,
+            "ExternId": 4
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 4,
+            "Dy": 15,
+            "Area": 60,
+            "ExternId": 5
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 7,
+            "Area": 7,
+            "ExternId": 6
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 11,
+            "Dy": 3,
+            "Area": 33,
+            "ExternId": 7
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 5,
+            "Dy": 5,
+            "Area": 25,
+            "ExternId": 8
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 5,
+            "Area": 5,
+            "ExternId": 9
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 2,
+            "Area": 2,
+            "ExternId": 10
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 3,
+            "Area": 3,
+            "ExternId": 11
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 2,
+            "Area": 2,
+            "ExternId": 12
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 4,
+            "Area": 4,
+            "ExternId": 13
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 7,
+            "Area": 7,
+            "ExternId": 14
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 3,
+            "Area": 3,
+            "ExternId": 15
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 7,
+            "Area": 7,
+            "ExternId": 16
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 3,
+            "Area": 3,
+            "ExternId": 17
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 4,
+            "Area": 4,
+            "ExternId": 18
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 2,
+            "Area": 2,
+            "ExternId": 19
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 4,
+            "Area": 4,
+            "ExternId": 20
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 1,
+            "Dy": 5,
+            "Area": 5,
+            "ExternId": 21
+        },
+        {
+            "X": 0,
+            "Y": 0,
+            "Dx": 5,
+            "Dy": 2,
+            "Area": 10,
+            "ExternId": 22
+        }
+    ]
+}
