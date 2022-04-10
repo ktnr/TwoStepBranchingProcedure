@@ -1190,7 +1190,6 @@ bool LeftmostActiveOnly::IsPlacementFeasible(Packing2D& packing, const Rectangle
         return false;
     }
 
-    // TODO.Logic: For compatibility with outer B&B scheme, check if placement point is in set of MiM. Does this exclude solutions? Cannot be used in conjunction with domain reduction according to Soh (2010).
     if (!(this->itemSpecificPlacementPointsX[itemToPlace.InternId][packing.ActiveX] && this->itemSpecificPlacementPointsY[itemToPlace.InternId][packing.ActiveY]))
     {
         return false;
