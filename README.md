@@ -38,6 +38,8 @@ The constraint programming appraoch of Clautiaux et al. (2008) is often cited to
 
 Link to issue
 
+An interactive, educational version of the basic nested branch-and-bound algorithm is available [here](https://github.com/mike-ghes/CS9544-2dOrthogonalPacking). 
+
 # References
 
 - Clautiaux, F., Carlier, J., & Moukrim, A. (2007). A new exact method for the two-dimensional orthogonal packing problem. European Journal of Operational Research, 183(3), 1196-1211.
