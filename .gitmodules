@@ -1,3 +1,6 @@
 [submodule "external/taskflow"]
 	path = external/taskflow
 	url = https://github.com/taskflow/taskflow.git
+[submodule "external/doctest"]
+	path = external/doctest
+	url = https://github.com/doctest/doctest.git
