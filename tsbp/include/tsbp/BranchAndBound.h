@@ -76,6 +76,7 @@ struct Packing2D
     bool IsReducedItemPlaced = false;
     bool IsFixedItemPlaced = false;
 
+    void Initialize(const std::vector<Rectangle>& items, const Bin& bin);
     void AddItem(Rectangle&& rectangle, int itemId);
 
     double GetDeactivatedArea() const { return DeactivatedArea; }
@@ -233,7 +234,6 @@ class LeftmostActiveOnly : public IBranchAndBoundSolver
     std::vector<boost::dynamic_bitset<>> itemSpecificPlacementPointsX;
     std::vector<boost::dynamic_bitset<>> itemSpecificPlacementPointsY;
 
-    void Preprocess();
     size_t InitializeSearchTree();
 
     size_t FindMinimumItemDx();
@@ -256,7 +256,6 @@ class LeftmostActiveOnly : public IBranchAndBoundSolver
     void DeactivatePlacement(Node& const node, size_t nodeId);
 
     bool PlaceBottomLeftPlacement(Node& node, const Rectangle& item);
-    bool IsPlacementFeasible(Packing2D& packing, const Rectangle& itemToPlace);
 
     std::tuple<size_t, size_t> FindNewBottomLeft(Packing2D& packing);
     void AddSuccessfulPlacementDummy(Packing2D& packing);
@@ -265,6 +264,11 @@ class LeftmostActiveOnly : public IBranchAndBoundSolver
 
     bool IsCancelled() const;
     void SignalCancelling();
+
+    /// These methods should actually be private, but they are used in tests.
+    public:
+    void Preprocess();
+    bool IsPlacementFeasible(Packing2D& packing, const Rectangle& itemToPlace);
 };
 
 struct PackingRelaxed2D
@@ -288,6 +292,7 @@ struct PackingRelaxed2D
     bool IsReducedItemPlaced = false;
     bool IsFixedItemPlaced = false;
 
+    void Initialize(const std::vector<Rectangle>& items, const Bin& container);
     ////double GetDeactivatedArea() const { return boost::geometry::area(DeactivatedArea); }
     double GetDeactivatedArea() const { return DeactivatedArea; }
 };

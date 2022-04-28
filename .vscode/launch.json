@@ -32,6 +32,17 @@
             "console": "externalTerminal"
         },
         {
+            "name": "Launch Test Debug (Windows)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tests/Debug/tsbp-tests.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal"
+        },
+        {
             "name": "Launch Debug (Linux)",
             "type": "cppdbg",
             "request": "launch",
@@ -44,6 +55,17 @@
                 "-o",
                 "${workspaceFolder}/data/output/"
             ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal"
+        },
+        {
+            "name": "Launch Test Debug (Windows)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tests/Debug/tsbp-tests.exe",
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

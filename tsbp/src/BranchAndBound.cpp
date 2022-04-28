@@ -18,6 +18,17 @@ namespace tsbp
 ////#include <psapi.h>
 ////#include <windows.h>
 
+void Packing2D::Initialize(const std::vector<Rectangle>& items, const Bin& bin)
+{
+    Items.reserve(items.size());
+    PlacedItems = boost::dynamic_bitset<>(items.size());
+    RemainingItemAreaToPlace = std::accumulate(items.begin(), items.end(), 0.0, [](double volume, const Rectangle& i)
+                                                         { return volume + i.Area; });
+    PlacedAreaVector = std::vector<size_t>(bin.Dy + 1, 0);
+    DeactivatedAreaVector = std::vector<size_t>(bin.Dy + 1, 0);
+    ReducedItemInfeasiblePlacementPoints = 0;
+}
+
 void Packing2D::AddItem(Rectangle&& rectangle, int itemId)
 {
     Items.emplace_back(std::move(rectangle));
@@ -433,13 +444,7 @@ size_t LeftmostActiveOnly::InitializeSearchTree()
     rootNode.NodeStatus = BaseNode::Status::Root;
 
     std::unique_ptr<Packing2D> layout2D = std::make_unique<Packing2D>();
-    layout2D->Items.reserve(items.size());
-    layout2D->PlacedItems = boost::dynamic_bitset<>(items.size());
-    layout2D->RemainingItemAreaToPlace = std::accumulate(items.begin(), items.end(), 0.0, [](double volume, const Rectangle& i)
-                                                         { return volume + i.Area; });
-    layout2D->PlacedAreaVector = std::vector<size_t>(container.Dy + 1, 0);
-    layout2D->DeactivatedAreaVector = std::vector<size_t>(container.Dy + 1, 0);
-    layout2D->ReducedItemInfeasiblePlacementPoints = 0;
+    layout2D->Initialize(items, container);
 
     rootNode.Packing = std::move(layout2D);
 
@@ -1353,6 +1358,25 @@ void LeftmostActiveOnly::AddSuccessfulPlacementDummy(Packing2D& packing)
 
 #pragma region Two - step branching procedure
 
+void PackingRelaxed2D::Initialize(const std::vector<Rectangle>& items, const Bin& bin)
+{
+    ItemCoordinatesX.reserve(items.size());
+    PlacedItems = boost::dynamic_bitset<>(items.size());
+    PlaceableItemsAtCurrentX = ~PlacedItems;
+    ////layout2D.PlacedItems = std::unordered_set<size_t>();
+    ////layout2D.PlacedItems.reserve(this->items.size());
+    RemainingItemAreaToPlace = std::accumulate(
+        items.begin(),
+        items.end(),
+        0.0,
+        [](double volume, const Rectangle& i)
+        { return volume + i.Area; });
+    PlacedAreaVector = std::vector<size_t>(bin.Dx + 1, 0);
+    ItemCoordinatesX = std::vector<int>(items.size(), -1);
+    MinimumRemainingItemDy = bin.Dy;
+    MinimumRemainingItemDyAtCurrentX = bin.Dy;
+}
+
 bool TwoStepBranchingProcedure::Node::AllItemsPlaced(const std::vector<Rectangle>& items) const
 {
     return items.size() == PlacedItems().count();
@@ -1785,21 +1809,7 @@ size_t TwoStepBranchingProcedure::InitializeSearchTree()
     rootNode.NodeStatus = BaseNode::Status::Root;
 
     std::unique_ptr<PackingRelaxed2D> layout2D = std::make_unique<PackingRelaxed2D>();
-    layout2D->ItemCoordinatesX.reserve(items.size());
-    layout2D->PlacedItems = boost::dynamic_bitset<>(items.size());
-    layout2D->PlaceableItemsAtCurrentX = ~layout2D->PlacedItems;
-    ////layout2D.PlacedItems = std::unordered_set<size_t>();
-    ////layout2D.PlacedItems.reserve(this->items.size());
-    layout2D->RemainingItemAreaToPlace = std::accumulate(
-        items.begin(),
-        items.end(),
-        0.0,
-        [](double volume, const Rectangle& i)
-        { return volume + i.Area; });
-    layout2D->PlacedAreaVector = std::vector<size_t>(container.Dx + 1, 0);
-    layout2D->ItemCoordinatesX = std::vector<int>(items.size(), -1);
-    layout2D->MinimumRemainingItemDy = container.Dy;
-    layout2D->MinimumRemainingItemDyAtCurrentX = container.Dy;
+    layout2D->Initialize(items, container);
 
     rootNode.Packing = std::move(layout2D);
 
