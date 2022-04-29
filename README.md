@@ -1,6 +1,6 @@
 # Nested tree-search for two-dimensional orthogonal packing problems
 
-This repository is a reproduction of the nested branch-and-bound algorithm by Clautiaux, Carlier and Moukrim (2007) to solve two-dimensional orthogonal packing problems (2D-OPP). 
+This repository is an attempt to reproduce the nested branch-and-bound algorithm by Clautiaux, Carlier and Moukrim (2007) to solve two-dimensional orthogonal packing problems (2D-OPP). 
 
 The 2D-OPP asks, given a bin and non-rotatable items, can the items be placed in the bin without overlapping? The 2D-OPP is an important subproblem in many combinatorial optimization problems and, despite its simple formulation, is notoriously difficult to solve. There are instances with just 20-30 items that cannot be proven to be feasible or infeasible with current methods.
 
@@ -36,7 +36,7 @@ The constraint programming appraoch of Clautiaux et al. (2008) is often cited to
 
 # Future research and pointers
 
-Link to issue
+The 2D-OPP is an important subproblem to many combinatorial optimization problems. Solving 2D-OPPs more efficiently may further progress for a variety of other problems. For example, the 2D-OPP is a subproblem to 2D bin packing problems. Some comparatively small 2D bin packing instances that have been introduced more than 30 years ago remain open to this day. Some of them because the arising 2D-OPPs are too hard. For suggestions on how to improve the solution times see the [issues page](https://github.com/ktnr/TwoStepBranchingProcedure/issues) and in particular https://github.com/ktnr/TwoStepBranchingProcedure/issues/5 for a list of references that might be compatible with this algorithm or might even be better suited to solve hard 2D-OPPs.
 
 An interactive, educational version of the basic nested branch-and-bound algorithm is available [here](https://github.com/mike-ghes/CS9544-2dOrthogonalPacking). 
 
