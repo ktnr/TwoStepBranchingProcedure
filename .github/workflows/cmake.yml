@@ -21,6 +21,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
+    # Add boost headers according to https://github.community/t/how-to-install-boost-on-github-actions/202124/4
     env:
       BOOST_ROOT: ${{github.workspace}}/3rdparty/boost
       BOOST_URL: https://sourceforge.net/projects/boost/files/boost/1.76.0/boost_1_76_0.tar.bz2/download
@@ -66,6 +67,5 @@ jobs:
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      #run: ctest -C ${{env.BUILD_TYPE}}
-      run: ${{github.workspace}}/build/${{env.BUILD_TYPE}}/tsbp-tests
+      run: ctest -C ${{env.BUILD_TYPE}}
       
