@@ -420,7 +420,7 @@ SearchStatus LeftmostActiveOnly::SolveParallelTaskflow()
     return status;
 }
 
-void LeftmostActiveOnly::UpdateSolverStatistics(SolverStatistics& const statistics) const
+void LeftmostActiveOnly::UpdateSolverStatistics(SolverStatistics& statistics) const
 {
     statistics.CallCountLMAO += 1;
     statistics.NodeCountLMAO += this->statistics.NodeCount;
@@ -663,7 +663,7 @@ LeftmostActiveOnly::SearchTree::vertex_descriptor LeftmostActiveOnly::AddLeafNod
 
 std::optional<size_t> LeftmostActiveOnly::Branch(size_t nodeId)
 {
-    Node& const currentNode = this->tree[nodeId];
+    Node& currentNode = this->tree[nodeId];
     const boost::dynamic_bitset<>& placedItems = currentNode.PlacedItems();
 
     if (currentNode.NodeStatus == BaseNode::Status::InfeasibleSequence)
@@ -924,7 +924,7 @@ std::optional<size_t> LeftmostActiveOnly::Backtrack(size_t node)
     */
 }
 
-void LeftmostActiveOnly::EvaluateLeaf(Node& const node, size_t nodeId)
+void LeftmostActiveOnly::EvaluateLeaf(Node& node, size_t nodeId)
 {
     ////Node& node = this->tree[nodeId];
 
@@ -976,7 +976,7 @@ void LeftmostActiveOnly::EvaluateLeaf(Node& const node, size_t nodeId)
 
 #pragma region Packing logic
 
-void LeftmostActiveOnly::DeactivatePlacement(Node& const node, size_t nodeId)
+void LeftmostActiveOnly::DeactivatePlacement(Node& node, size_t nodeId)
 {
     ////Node& node = this->tree[nodeId];
     node.NodeStatus = BaseNode::Status::DeactivatedPlacement;
@@ -1717,7 +1717,7 @@ SearchStatus TwoStepBranchingProcedure::SolveParallelNative()
     return status;
 }
 
-void TwoStepBranchingProcedure::UpdateSolverStatistics(SolverStatistics& const statistics) const
+void TwoStepBranchingProcedure::UpdateSolverStatistics(SolverStatistics& statistics) const
 {
     statistics.CallCountLMAO += this->statistics.CallCountLMAO;
     statistics.NodeCountLMAO += this->statistics.NodeCountLMAO;
@@ -1944,7 +1944,7 @@ SearchStatus TwoStepBranchingProcedure::SolveSequential()
     return this->searchStatus;
 }
 
-void TwoStepBranchingProcedure::DeactivatePlacement(Node& const node, size_t nodeId)
+void TwoStepBranchingProcedure::DeactivatePlacement(Node& node, size_t nodeId)
 {
     ////Node& node = this->tree[nodeId];
     node.NodeStatus = BaseNode::Status::DeactivatedPlacement;
@@ -1995,7 +1995,7 @@ void TwoStepBranchingProcedure::DeactivatePlacement(Node& const node, size_t nod
 
 std::optional<size_t> TwoStepBranchingProcedure::Branch(size_t nodeId)
 {
-    Node& const currentNode = this->tree[nodeId];
+    Node& currentNode = this->tree[nodeId];
     const boost::dynamic_bitset<>& placedItems = currentNode.PlacedItems();
     ////const std::unordered_set<size_t>& placedItems = currentNode.PlacedItems();
 
@@ -2152,7 +2152,7 @@ std::optional<size_t> TwoStepBranchingProcedure::Backtrack(size_t currentNode)
     return this->activeNodes.back();
 }
 
-void TwoStepBranchingProcedure::EvaluateLeaf(Node& const node, size_t nodeId)
+void TwoStepBranchingProcedure::EvaluateLeaf(Node& node, size_t nodeId)
 {
     ////Node& node = this->tree[nodeId];
     PackingRelaxed2D& packing = *node.Packing;
