@@ -121,10 +121,12 @@ struct BaseNode
 class IBranchAndBoundSolver
 {
   public:
+    virtual ~IBranchAndBoundSolver() = default;
+    
     virtual SearchStatus Solve() = 0;
     virtual SearchStatus GetSearchStatus() const = 0;
 
-    virtual void UpdateSolverStatistics(SolverStatistics& const statistics) const = 0;
+    virtual void UpdateSolverStatistics(SolverStatistics& statistics) const = 0;
     virtual Packing2D GetSolution() const = 0;
 };
 
@@ -163,7 +165,7 @@ class LeftmostActiveOnly : public IBranchAndBoundSolver
     SearchStatus SolveParallelNative();
 
     SearchStatus GetSearchStatus() const override { return this->searchStatus; };
-    void UpdateSolverStatistics(SolverStatistics& const statistics) const override;
+    void UpdateSolverStatistics(SolverStatistics& statistics) const override;
 
     const Statistics& GetStatistics() const { return this->statistics; };
     Packing2D GetSolution() const override;
@@ -251,9 +253,9 @@ class LeftmostActiveOnly : public IBranchAndBoundSolver
     std::optional<size_t> Branch(size_t nodeId);
     std::optional<size_t> Backtrack(size_t currentNode);
 
-    void EvaluateLeaf(Node& const node, size_t nodeId);
+    void EvaluateLeaf(Node& node, size_t nodeId);
 
-    void DeactivatePlacement(Node& const node, size_t nodeId);
+    void DeactivatePlacement(Node& node, size_t nodeId);
 
     bool PlaceBottomLeftPlacement(Node& node, const Rectangle& item);
 
@@ -322,7 +324,7 @@ class TwoStepBranchingProcedure : public IBranchAndBoundSolver
     SearchStatus SolveParallelNative();
 
     SearchStatus GetSearchStatus() const override { return this->searchStatus; };
-    void UpdateSolverStatistics(SolverStatistics& const statistics) const override;
+    void UpdateSolverStatistics(SolverStatistics& statistics) const override;
 
     const SolverStatistics& GetStatistics() const { return this->statistics; };
     Packing2D GetSolution() const override;
@@ -399,9 +401,9 @@ class TwoStepBranchingProcedure : public IBranchAndBoundSolver
     std::optional<size_t> Branch(size_t nodeId);
     std::optional<size_t> Backtrack(size_t currentNode);
 
-    void EvaluateLeaf(Node& const node, size_t nodeId);
+    void EvaluateLeaf(Node& node, size_t nodeId);
 
-    void DeactivatePlacement(Node& const node, size_t nodeId);
+    void DeactivatePlacement(Node& node, size_t nodeId);
 
     bool IsPlacementFeasible(PackingRelaxed2D& packing, const Rectangle& itemToPlace);
 

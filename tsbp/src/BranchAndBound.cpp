@@ -7,6 +7,7 @@
 #include <mutex>
 #include <numeric>
 #include <string>
+#include <stdexcept>
 
 #include "ltalloc/ltalloc.h"
 #include "taskflow/taskflow/taskflow.hpp"
@@ -420,7 +421,7 @@ SearchStatus LeftmostActiveOnly::SolveParallelTaskflow()
     return status;
 }
 
-void LeftmostActiveOnly::UpdateSolverStatistics(SolverStatistics& const statistics) const
+void LeftmostActiveOnly::UpdateSolverStatistics(SolverStatistics& statistics) const
 {
     statistics.CallCountLMAO += 1;
     statistics.NodeCountLMAO += this->statistics.NodeCount;
@@ -479,7 +480,8 @@ void LeftmostActiveOnly::AddItems(const std::vector<Rectangle>& items, const std
 {
     if (this->container.Dx == 0)
     {
-        throw std::exception("Container not assigned.");
+        auto ex = std::logic_error("Container not assigned.");
+        throw std::exception(ex);
     }
 
     this->tree.m_vertices.reserve(items.size() + 1);
@@ -497,7 +499,8 @@ void LeftmostActiveOnly::AddItems(const std::vector<Rectangle>& items, const std
 
         if (i != item.InternId)
         {
-            throw std::exception("Internal item IDs do not match.");
+            auto ex = std::logic_error("Internal item IDs do not match.");
+            throw std::exception(ex);
         }
 
         auto& bitsetX = this->itemSpecificPlacementPointsX.emplace_back(boost::dynamic_bitset<>(this->container.Dx));
@@ -506,7 +509,8 @@ void LeftmostActiveOnly::AddItems(const std::vector<Rectangle>& items, const std
         int coordinate = itemCoordinatesX[i];
         if (coordinate < 0)
         {
-            throw std::exception("Negative fixed coordinate.");
+            auto ex = std::logic_error("Negative fixed coordinate.");
+            throw std::exception(ex);
         }
 
         bitsetX.set(coordinate);
@@ -564,7 +568,8 @@ SearchStatus LeftmostActiveOnly::SolveSequential()
                 DeactivatePlacement(newNode, newNodeId.value());
                 break;
             default:
-                throw std::exception("Invalid node type.");
+                auto ex = std::logic_error("Invalid node type.");
+                throw std::exception(ex);
         }
 
         if (newNode.AllItemsPlaced(this->items))
@@ -590,7 +595,8 @@ SearchStatus LeftmostActiveOnly::SolveSequential()
                 nodeId = newNodeId.value();
                 break;
             default:
-                throw std::exception("Invalid node status.");
+                auto ex = std::logic_error("Invalid node status.");
+                throw std::exception(ex);
         }
     }
 
@@ -612,7 +618,8 @@ SearchStatus LeftmostActiveOnly::SolveSequential()
 
     if (bestNodeId == -1)
     {
-        throw std::exception("Search status is feasible but feasible leaf node is -1.");
+        auto ex = std::logic_error("Search status is feasible but feasible leaf node is -1.");
+        throw std::exception(ex);
     }
 
     if (fixedItemAtOrigin.has_value())
@@ -633,7 +640,8 @@ SearchStatus LeftmostActiveOnly::SolveSequential()
             break;
         case SearchStatus::Abort:
         default:
-            throw std::exception("Search status after search is neither feasible nor infeasible.");
+            auto ex = std::logic_error("Search status after search is neither feasible nor infeasible.");
+            throw std::exception(ex);
     }
 
     if (this->searchStatus == SearchStatus::Feasible)
@@ -663,7 +671,7 @@ LeftmostActiveOnly::SearchTree::vertex_descriptor LeftmostActiveOnly::AddLeafNod
 
 std::optional<size_t> LeftmostActiveOnly::Branch(size_t nodeId)
 {
-    Node& const currentNode = this->tree[nodeId];
+    Node& currentNode = this->tree[nodeId];
     const boost::dynamic_bitset<>& placedItems = currentNode.PlacedItems();
 
     if (currentNode.NodeStatus == BaseNode::Status::InfeasibleSequence)
@@ -695,7 +703,7 @@ std::optional<size_t> LeftmostActiveOnly::Branch(size_t nodeId)
 
         if (placementY == 0 && placementX == packing.MaxX)
         {
-            currentNode.NodeStatus == BaseNode::Status::InfeasibleSequence;
+            currentNode.NodeStatus = BaseNode::Status::InfeasibleSequence;
             return std::nullopt;
         }
 
@@ -924,7 +932,7 @@ std::optional<size_t> LeftmostActiveOnly::Backtrack(size_t node)
     */
 }
 
-void LeftmostActiveOnly::EvaluateLeaf(Node& const node, size_t nodeId)
+void LeftmostActiveOnly::EvaluateLeaf(Node& node, size_t nodeId)
 {
     ////Node& node = this->tree[nodeId];
 
@@ -976,7 +984,7 @@ void LeftmostActiveOnly::EvaluateLeaf(Node& const node, size_t nodeId)
 
 #pragma region Packing logic
 
-void LeftmostActiveOnly::DeactivatePlacement(Node& const node, size_t nodeId)
+void LeftmostActiveOnly::DeactivatePlacement(Node& node, size_t nodeId)
 {
     ////Node& node = this->tree[nodeId];
     node.NodeStatus = BaseNode::Status::DeactivatedPlacement;
@@ -1386,7 +1394,8 @@ void TwoStepBranchingProcedure::AddItems(const std::vector<Rectangle>& items, in
 {
     if (this->container.Dx == 0)
     {
-        throw std::exception("Container not assigned.");
+        auto ex = std::logic_error("Container not assigned.");
+        throw std::exception(ex);
     }
 
     this->tree.m_vertices.reserve(items.size() + 1);
@@ -1401,7 +1410,8 @@ void TwoStepBranchingProcedure::AddItems(const std::vector<Rectangle>& items, in
 
         if (i != item.InternId)
         {
-            throw std::exception("Internal item IDs do not match.");
+            auto ex = std::logic_error("Internal item IDs do not match.");
+            throw std::exception(ex);
         }
     }
 }
@@ -1717,7 +1727,7 @@ SearchStatus TwoStepBranchingProcedure::SolveParallelNative()
     return status;
 }
 
-void TwoStepBranchingProcedure::UpdateSolverStatistics(SolverStatistics& const statistics) const
+void TwoStepBranchingProcedure::UpdateSolverStatistics(SolverStatistics& statistics) const
 {
     statistics.CallCountLMAO += this->statistics.CallCountLMAO;
     statistics.NodeCountLMAO += this->statistics.NodeCountLMAO;
@@ -1775,7 +1785,8 @@ void TwoStepBranchingProcedure::DomainReductionX(size_t domainReducedItemIndex)
         const Rectangle& item = this->items[i];
         if (item.InternId != i)
         {
-            throw std::exception("Item IDs do not match in TSBP.");
+            auto ex = std::logic_error("Item IDs do not match in TSBP.");
+            throw std::exception(ex);
         }
 
         if (i == domainReducedItemIndex)
@@ -1866,7 +1877,8 @@ SearchStatus TwoStepBranchingProcedure::SolveSequential()
                 DeactivatePlacement(newNode, newNodeId.value());
                 break;
             default:
-                throw std::exception("Invalid node type.");
+                auto ex = std::logic_error("Invalid node type.");
+                throw std::exception(ex);
         }
 
         if (newNode.AllItemsPlaced(this->items))
@@ -1895,7 +1907,8 @@ SearchStatus TwoStepBranchingProcedure::SolveSequential()
                 nodeId = newNodeId.value();
                 break;
             default:
-                throw std::exception("Invalid node status.");
+                auto ex = std::logic_error("Invalid node status.");
+                throw std::exception(ex);
         }
     }
 
@@ -1917,7 +1930,8 @@ SearchStatus TwoStepBranchingProcedure::SolveSequential()
 
     if (bestNodeId == -1)
     {
-        throw std::exception("Search status is feasible but feasible leaf node is -1.");
+        auto ex = std::logic_error("Search status is feasible but feasible leaf node is -1.");
+        throw std::exception(ex);
     }
 
     if (fixedItemAtOrigin.has_value())
@@ -1938,13 +1952,14 @@ SearchStatus TwoStepBranchingProcedure::SolveSequential()
             break;
         case SearchStatus::Abort:
         default:
-            throw std::exception("Search status after search is neither feasible nor infeasible.");
+            auto ex = std::logic_error("Search status after search is neither feasible nor infeasible.");
+            throw std::exception(ex);
     }
 
     return this->searchStatus;
 }
 
-void TwoStepBranchingProcedure::DeactivatePlacement(Node& const node, size_t nodeId)
+void TwoStepBranchingProcedure::DeactivatePlacement(Node& node, size_t nodeId)
 {
     ////Node& node = this->tree[nodeId];
     node.NodeStatus = BaseNode::Status::DeactivatedPlacement;
@@ -1995,7 +2010,7 @@ void TwoStepBranchingProcedure::DeactivatePlacement(Node& const node, size_t nod
 
 std::optional<size_t> TwoStepBranchingProcedure::Branch(size_t nodeId)
 {
-    Node& const currentNode = this->tree[nodeId];
+    Node& currentNode = this->tree[nodeId];
     const boost::dynamic_bitset<>& placedItems = currentNode.PlacedItems();
     ////const std::unordered_set<size_t>& placedItems = currentNode.PlacedItems();
 
@@ -2152,7 +2167,7 @@ std::optional<size_t> TwoStepBranchingProcedure::Backtrack(size_t currentNode)
     return this->activeNodes.back();
 }
 
-void TwoStepBranchingProcedure::EvaluateLeaf(Node& const node, size_t nodeId)
+void TwoStepBranchingProcedure::EvaluateLeaf(Node& node, size_t nodeId)
 {
     ////Node& node = this->tree[nodeId];
     PackingRelaxed2D& packing = *node.Packing;
@@ -2284,7 +2299,8 @@ bool TwoStepBranchingProcedure::SolveSubproblem(Node& newNode, const size_t newN
         case SearchStatus::Cancelled:
         case SearchStatus::Abort:
         default:
-            throw std::exception("Lower level branch and bound search returned neither feasible nor infeasible. The search cannot continue.");
+            auto ex = std::logic_error("Lower level branch and bound search returned neither feasible nor infeasible. The search cannot continue.");
+            throw std::exception(ex);
     }
 
     if (this->searchStatus == SearchStatus::Feasible)
@@ -2427,7 +2443,8 @@ void CheckMemoryUsage()
     if (ramUsage > 0.95)
     {
         std::cout << "Memory at " + std::to_string(ramUsage) + "%: abort.\n";
-        throw std::exception("System out of memory!");
+        auto ex = std::runtime_error("System out of memory!");
+        throw std::exception(ex);
     }
 }
 */

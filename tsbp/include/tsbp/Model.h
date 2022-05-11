@@ -106,7 +106,7 @@ enum class SolutionAlgorithm
 struct InputParameters
 {
   public:
-    SolutionAlgorithm SolutionAlgorithm = SolutionAlgorithm::TwoStepBranchingProcedure;
+    tsbp::SolutionAlgorithm SolutionAlgorithm = SolutionAlgorithm::TwoStepBranchingProcedure;
 
     std::string OutputPath = "";
 
