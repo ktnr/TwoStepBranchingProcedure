@@ -121,6 +121,8 @@ struct BaseNode
 class IBranchAndBoundSolver
 {
   public:
+    virtual ~IBranchAndBoundSolver() = default;
+    
     virtual SearchStatus Solve() = 0;
     virtual SearchStatus GetSearchStatus() const = 0;
 

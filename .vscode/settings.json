@@ -102,6 +102,7 @@
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "resumable": "cpp"
     }
 }
