@@ -695,7 +695,7 @@ std::optional<size_t> LeftmostActiveOnly::Branch(size_t nodeId)
 
         if (placementY == 0 && placementX == packing.MaxX)
         {
-            currentNode.NodeStatus == BaseNode::Status::InfeasibleSequence;
+            currentNode.NodeStatus = BaseNode::Status::InfeasibleSequence;
             return std::nullopt;
         }
 
