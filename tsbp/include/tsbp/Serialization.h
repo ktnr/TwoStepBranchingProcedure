@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include <ios>
 
 using json = nlohmann::json;
 
@@ -21,7 +22,8 @@ public:
         {
             if (!ofs.is_open())
             {
-                throw std::exception("File stream not open.");
+                auto ex = std::ios_base::failure("File stream not open.");
+                throw std::exception(ex);
             }
 
             json jsonFile = classToSerialize;
