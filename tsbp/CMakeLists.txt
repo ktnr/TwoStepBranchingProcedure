@@ -1,7 +1,7 @@
 # https://cliutils.gitlab.io/modern-cmake/
 # for CI: https://raymii.org/s/articles/Github_Actions_cpp_boost_cmake_speedup.html
 
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.16)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
@@ -22,7 +22,7 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
-find_package(Boost 1.76 REQUIRED) # REQUIRED COMPONENTS graph dynamic_bitset property_map
+find_package(Boost 1.71 REQUIRED) # REQUIRED COMPONENTS graph dynamic_bitset property_map
 
 message(STATUS "Boost_FOUND: ${Boost_FOUND}")
 message(STATUS "Boost version: ${Boost_VERSION}")
@@ -41,6 +41,10 @@ add_library(tsbp-lib
     "include/tsbp/Serialization.h"
     "include/tsbp/Preprocess.h"
     )
+
+if(UNIX)
+    target_link_libraries(tsbp-lib PRIVATE tbb pthread)
+endif()
 
 target_include_directories(tsbp-lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include/tsbp

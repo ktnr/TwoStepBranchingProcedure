@@ -17,6 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         build_type: [Release, Debug]
+        cxx: ['g++-9', 'clang++-10']
     runs-on: ubuntu-latest
 
     # Add boost headers according to https://github.community/t/how-to-install-boost-on-github-actions/202124/4
@@ -58,17 +59,21 @@ jobs:
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      # 
-      # Using -ltbb flag according to https://stackoverflow.com/a/55989883 does not work.
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_EXE_LINKER_FLAGS="-ltbb"
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+      env:
+        CXX: ${{ matrix.cxx }}
 
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{matrix.build_type}}
+      env:
+        CXX: ${{ matrix.cxx }}
 
     - name: Test
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{matrix.build_type}}
+      env:
+        CXX: ${{ matrix.cxx }}
       
