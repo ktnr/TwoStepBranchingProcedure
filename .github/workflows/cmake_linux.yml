@@ -60,7 +60,7 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       # 
       # Using -ltbb flag according to https://stackoverflow.com/a/55989883 does not work.
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_EXE_LINKER_FLAGS="-ltbb" -DCMAKE_MODULE_LINKER_FLAGS="-ltbb" -DCMAKE_SHARED_LINKER_FLAGS="-ltbb"
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_MODULE_LINKER_FLAGS="-ltbb" -DCMAKE_SHARED_LINKER_FLAGS="-ltbb"
 
     - name: Build
       # Build your program with the given configuration
