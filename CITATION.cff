@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Kuttner"
+  given-names: "Leopold"
+title: "TwoStepBranchingProcedure - Nested branch-and-bound algorithm to solve two-dimensional orthogonal packing problems"
+version: 0.9
+date-released: 2022-05-12
+url: "https://github.com/ktnr/TwoStepBranchingProcedure"
+references:
+  - type: article
+    authors:
+    - family-names: "Clautiaux"
+      given-names: "François"
+    - family-names: "Carlier"
+      given-names: "Jacques"
+    - family-names: "Moukrim"
+      given-names: "Aziz"
+    journal: "European Journal of Operational Research"
+    start: 1196
+    end: 1211
+    title: "A new exact method for the two-dimensional orthogonal packing problem. European Journal of Operational Research"
+    issue: 3
+    volume: 183
+    year: 2007
