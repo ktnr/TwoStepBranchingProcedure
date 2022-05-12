@@ -1,7 +1,7 @@
 # https://cliutils.gitlab.io/modern-cmake/
 # for CI: https://raymii.org/s/articles/Github_Actions_cpp_boost_cmake_speedup.html
 
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.16)
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
@@ -24,4 +24,8 @@ target_include_directories(tsbp PUBLIC
     ${CMAKE_SOURCE_DIR}/external
     ${CMAKE_SOURCE_DIR}/tsbp/include)
 
-target_link_libraries(tsbp PRIVATE tsbp-lib)
+if(UNIX)
+    target_link_libraries(tsbp PRIVATE tsbp-lib tbb pthread)
+else()
+    target_link_libraries(tsbp PRIVATE tsbp-lib)
+endif(UNIX)

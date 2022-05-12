@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.16)
 
 project(
     tsbp-tests
@@ -23,7 +23,11 @@ target_include_directories(tsbp-tests PUBLIC
     ${CMAKE_SOURCE_DIR}/external/doctest/doctest
     ${CMAKE_SOURCE_DIR}/tsbp/include)
 
-target_link_libraries(tsbp-tests PRIVATE tsbp-lib)
+if(UNIX)
+    target_link_libraries(tsbp-tests PRIVATE tsbp-lib tbb pthread)
+else()
+    target_link_libraries(tsbp-tests PRIVATE tsbp-lib)
+endif(UNIX)
 
 # https://github.com/doctest/doctest/blob/master/doc/markdown/build-systems.md
 doctest_discover_tests(${PROJECT_NAME})
