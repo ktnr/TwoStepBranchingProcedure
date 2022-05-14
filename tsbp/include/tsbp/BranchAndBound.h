@@ -13,8 +13,8 @@
 namespace tsbp
 {
 
-////static void CheckMemoryUsage();
-////static double MemoryUsedByCurrentProcess();
+static void CheckMemoryUsage();
+static double MemoryUsedByCurrentProcess();
 
 enum class SearchStatus
 {
