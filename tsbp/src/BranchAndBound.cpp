@@ -6,25 +6,35 @@
 #include <iostream>
 #include <mutex>
 #include <numeric>
-#include <string>
 #include <stdexcept>
+#include <string>
 
 #include "ltalloc/ltalloc.h"
 #include "taskflow/taskflow/taskflow.hpp"
 
+#ifdef __linux__
+    #include "sys/sysinfo.h"
+    #include "sys/types.h"
+    #include "stdlib.h"
+    #include "stdio.h"
+    #include "string.h"
+#elif _WIN32
+    // Use std::min<T> and std::max<T> explicitly to avoid definition clash: https://stackoverflow.com/a/30924806/5587903.
+    #include <psapi.h>
+    #include <windows.h>
+#else
+
+#endif
+
 namespace tsbp
 {
-
-// Use std::min<T> and std::max<T> explicitly to avoid definition clash: https://stackoverflow.com/a/30924806/5587903.
-////#include <psapi.h>
-////#include <windows.h>
 
 void Packing2D::Initialize(const std::vector<Rectangle>& items, const Bin& bin)
 {
     Items.reserve(items.size());
     PlacedItems = boost::dynamic_bitset<>(items.size());
     RemainingItemAreaToPlace = std::accumulate(items.begin(), items.end(), 0.0, [](double volume, const Rectangle& i)
-                                                         { return volume + i.Area; });
+                                               { return volume + i.Area; });
     PlacedAreaVector = std::vector<size_t>(bin.Dy + 1, 0);
     DeactivatedAreaVector = std::vector<size_t>(bin.Dy + 1, 0);
     ReducedItemInfeasiblePlacementPoints = 0;
@@ -224,7 +234,7 @@ SearchStatus LeftmostActiveOnly::Solve()
     auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
     this->statistics.TimeOverall = time;
-    ////this->statistics.MemoryUsage = MemoryUsedByCurrentProcess();
+    this->statistics.MemoryUsage = MemoryUsedByCurrentProcess();
 
     return searchStatus;
 }
@@ -822,7 +832,7 @@ bool LeftmostActiveOnly::IsFixedSequence(const Node& node, size_t nextItemId)
 std::optional<size_t> LeftmostActiveOnly::Backtrack(size_t node)
 {
     // Check here instead of IsCancelled() to avoid excessive number of memory checks.
-    ////CheckMemoryUsage();
+    CheckMemoryUsage();
 
     // Remove deactivated leaves.
     if (!this->nodesToDeactivate.empty())
@@ -1513,7 +1523,7 @@ SearchStatus TwoStepBranchingProcedure::Solve()
 
     this->statistics.TimeOverall = time;
     this->statistics.TimeTSBP = time - this->statistics.TimeLMAO;
-    ////this->statistics.MemoryUsage = MemoryUsedByCurrentProcess();
+    this->statistics.MemoryUsage = MemoryUsedByCurrentProcess();
 
     return searchStatus;
 }
@@ -2115,7 +2125,7 @@ std::optional<size_t> TwoStepBranchingProcedure::Backtrack(size_t currentNode)
 {
     // Check here instead of IsCancelled() to avoid excessive number of memory checks.
     // According to https://stackoverflow.com/a/64166/5587903.
-    ////CheckMemoryUsage();
+    CheckMemoryUsage();
 
     // Remove deactivated leaves.
     if (!this->nodesToDeactivate.empty())
@@ -2422,31 +2432,90 @@ typename TwoStepBranchingProcedure::SearchTree::vertex_descriptor TwoStepBranchi
 
 #pragma endregion
 
-/*
-double MemoryUsedByCurrentProcess()
-{
-    PROCESS_MEMORY_COUNTERS_EX pmc;
-    GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
-
-    SIZE_T physicalMemoryUsedByCurrentProcess = pmc.WorkingSetSize;
-
-    return (double)physicalMemoryUsedByCurrentProcess;
-}
-
-void CheckMemoryUsage()
-{
-    // According to https://stackoverflow.com/a/64166/5587903.
-    MEMORYSTATUSEX MemInfo;
-    MemInfo.dwLength = sizeof(MEMORYSTATUSEX);
-    GlobalMemoryStatusEx(&MemInfo);
-    double ramUsage = (double)(MemInfo.ullTotalPhys - MemInfo.ullAvailPhys) / (double)MemInfo.ullTotalPhys;
-    if (ramUsage > 0.95)
+#ifdef __linux__
+    int parseLine(char* line)
     {
-        std::cout << "Memory at " + std::to_string(ramUsage) + "%: abort.\n";
-        auto ex = std::runtime_error("System out of memory!");
-        throw std::exception(ex);
+        // This assumes that a digit will be found and the line ends in " Kb".
+        int i = strlen(line);
+        const char* p = line;
+        while (*p < '0' || *p > '9')
+            p++;
+
+        line[i - 3] = '\0';
+        i = atoi(p);
+
+        return i;
     }
-}
-*/
+
+    double MemoryUsedByCurrentProcess()
+    {
+        FILE* file = fopen("/proc/self/status", "r");
+        int result = -1;
+        char line[128];
+
+        while (fgets(line, 128, file) != NULL){
+            if (strncmp(line, "VmRSS:", 6) == 0){
+                result = parseLine(line); // Note: this value is in KB!
+                break;
+            }
+        }
+
+        fclose(file);
+        
+        double physicalMemoryUsedByCurrentProcess = (double)result;
+
+        return physicalMemoryUsedByCurrentProcess;
+    }
+
+    void CheckMemoryUsage()
+    {
+        // According to https://stackoverflow.com/a/64166/5587903.
+        struct sysinfo memInfo;
+
+        sysinfo(&memInfo);
+        long long totalPhysMem = memInfo.totalram;
+        // Multiply in next statement to avoid int overflow on right hand side...
+        totalPhysMem *= memInfo.mem_unit;
+
+        long long physMemUsed = memInfo.totalram - memInfo.freeram;
+        // Multiply in next statement to avoid int overflow on right hand side...
+        physMemUsed *= memInfo.mem_unit;
+
+        double ramUsage = (double)physMemUsed / (double)totalPhysMem;
+        if (ramUsage > 0.95)
+        {
+            std::cout << "Memory at " + std::to_string(ramUsage) + "%: abort.\n";
+            auto ex = std::runtime_error("System out of memory!");
+            throw std::exception(ex);
+        }
+    }
+#elif _WIN32
+    double MemoryUsedByCurrentProcess()
+    {
+        PROCESS_MEMORY_COUNTERS_EX pmc;
+        GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
+
+        SIZE_T physicalMemoryUsedByCurrentProcess = pmc.WorkingSetSize;
+
+        return (double)physicalMemoryUsedByCurrentProcess;
+    }
+
+    void CheckMemoryUsage()
+    {
+        // According to https://stackoverflow.com/a/64166/5587903.
+        MEMORYSTATUSEX MemInfo;
+        MemInfo.dwLength = sizeof(MEMORYSTATUSEX);
+        GlobalMemoryStatusEx(&MemInfo);
+        double ramUsage = (double)(MemInfo.ullTotalPhys - MemInfo.ullAvailPhys) / (double)MemInfo.ullTotalPhys;
+        if (ramUsage > 0.95)
+        {
+            std::cout << "Memory at " + std::to_string(ramUsage) + "%: abort.\n";
+            auto ex = std::runtime_error("System out of memory!");
+            throw std::exception(ex);
+        }
+    }
+#else
+
+#endif
 
 }
