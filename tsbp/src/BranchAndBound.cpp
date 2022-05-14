@@ -20,8 +20,8 @@
     #include "string.h"
 #elif _WIN32
     // Use std::min<T> and std::max<T> explicitly to avoid definition clash: https://stackoverflow.com/a/30924806/5587903.
-    #include <psapi.h>
     #include <windows.h>
+    #include <psapi.h>
 #else
 
 #endif
