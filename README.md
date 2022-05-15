@@ -40,7 +40,7 @@ Options:
 
 For example:
 >tsbp.exe -i ${workspaceFolder}/data/input/CJCM08/ -f E00N10.json -o ${workspaceFolder}/data/output/
-$tsbp.exe -i ${workspaceFolder}/data/input/CJCM08/ -f E00N10.json -o ${workspaceFolder}/data/output/
+$tsbp -i ${workspaceFolder}/data/input/CJCM08/ -f E00N10.json -o ${workspaceFolder}/data/output/
 ```
 
 Caution, the memory usage for the program increases rapidly. For hard instances which require a few billion nodes to solve, memory consumption can reach multiple hundreds of GB. To avoid excessive memory usage, we abort at 95% memory utilization.
