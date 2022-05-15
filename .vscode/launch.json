@@ -32,6 +32,24 @@
             "console": "externalTerminal"
         },
         {
+            "name": "Launch Release (Windows)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tsbp-cli/Release/tsbp.exe",
+            "args": [
+                "-i",
+                "${workspaceFolder}/data/input/CJCM08/",
+                "-f",
+                "E00N10.json",
+                "-o",
+                "${workspaceFolder}/data/output/"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal"
+        },
+        {
             "name": "Launch Test Debug (Windows)",
             "type": "cppvsdbg",
             "request": "launch",

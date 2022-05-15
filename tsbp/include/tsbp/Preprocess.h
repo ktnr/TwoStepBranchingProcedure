@@ -22,6 +22,8 @@ class PreprocessPacking2D
     Bin container;
     InputParameters parameters;
 
+    void InitializeInternIds(std::vector<Rectangle>& items);
+
     void RemoveLargeItems(std::vector<Rectangle>& items, Bin& container);
     void FilterFrameConfigurations(std::vector<Rectangle>& items, Bin& container);
 

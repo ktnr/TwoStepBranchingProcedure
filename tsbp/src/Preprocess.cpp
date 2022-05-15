@@ -12,6 +12,8 @@ namespace tsbp
 
 void PreprocessPacking2D::Run()
 {
+    InitializeInternIds(this->items);
+
     std::vector<Rectangle> newItems = this->items;
     Bin newContainer = this->container;
 
@@ -25,8 +27,19 @@ void PreprocessPacking2D::Run()
     std::cout << "Preprocess removed " << this->items.size() - newItems.size() << " items "
               << "and reduced container area by " << this->container.Area - newContainer.Area << ".\n";
 
+    InitializeInternIds(newItems);
+
     PreprocessedContainer = newContainer;
     ProcessedItems = newItems;
+}
+
+void PreprocessPacking2D::InitializeInternIds(std::vector<Rectangle>& items)
+{
+    for (size_t i = 0; i < items.size(); i++)
+    {
+        Rectangle& item = items[i];
+        item.InternId = i;
+    }
 }
 
 void PreprocessPacking2D::RemoveLargeItems(std::vector<Rectangle>& items, Bin& container)

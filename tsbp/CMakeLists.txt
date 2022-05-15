@@ -40,6 +40,7 @@ add_library(tsbp-lib
     "include/tsbp/OrthogonalPackingSolver2D.h"
     "include/tsbp/Serialization.h"
     "include/tsbp/Preprocess.h"
+    "${CMAKE_SOURCE_DIR}/external/ltalloc/ltalloc.cc"
     )
 
 if(UNIX)
