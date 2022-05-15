@@ -26,6 +26,29 @@ Additional improvements over the original algorithm include
 - parallelization at the root node
 - use of modern memory allocation
 
+# Usage
+
+Run the CLI-app with the following arguments, cp. [`.vscode/launch.json`](https://github.com/ktnr/TwoStepBranchingProcedure/blob/2fa7152b532571ff98a6fe40e790e19998e4d716/.vscode/launch.json):
+```
+Options:
+  -h,--help                   Print this help message and exit
+  -i,--inputdir TEXT REQUIRED The directory where the input file -f resides
+  -f,--file TEXT REQUIRED     The input file name
+  -o,--outdir TEXT REQUIRED   The output directory
+  -p,--param TEXT             The .json parameter full file path
+  -t,--timeSuffix BOOLEAN     If time should be appended to the output path (1=true, 0=false)
+
+For example:
+>tsbp.exe -i ${workspaceFolder}/data/input/CJCM08/ -f E00N10.json -o ${workspaceFolder}/data/output/
+$tsbp.exe -i ${workspaceFolder}/data/input/CJCM08/ -f E00N10.json -o ${workspaceFolder}/data/output/
+```
+
+Caution, the memory usage for the program increases rapidly. For hard instances which require a few billion nodes to solve, memory consumption can reach multiple hundreds of GB. To avoid excessive memory usage, we abort at 95% memory utilization.
+
+https://github.com/ktnr/TwoStepBranchingProcedure/blob/2fa7152b532571ff98a6fe40e790e19998e4d716/tsbp/src/BranchAndBound.cpp#L2510-L2515
+
+Reducing the memory utilization by releasing already explored parts of the search tree (https://github.com/ktnr/TwoStepBranchingProcedure/issues/11) will allow to explore more nodes but will have limited effect on the runtime.
+
 # Evaluation
 
 Hard instances generally exhibit low area waste (\epsilon) between 2% and 7%, see the original paper. Particularly difficult are instances where all items are smaller than half the container dimensions, see [ktnr/BinPacking2D/BPP-Subproblems](https://github.com/ktnr/BinPacking2D/tree/master/data/input/OPP/BPP-Subproblems).
