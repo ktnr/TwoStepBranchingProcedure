@@ -1067,7 +1067,7 @@ void LeftmostActiveOnly::DeactivatePlacement(Node& node, size_t nodeId)
     }
 
     size_t maxY = placementY + 1;
-    if (minItemDy > (aboveMinY)-placementY)
+    if (minItemDy > aboveMinY - placementY)
     {
         maxY = aboveMinY;
     }
