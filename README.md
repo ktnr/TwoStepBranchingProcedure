@@ -51,7 +51,7 @@ Reducing the memory utilization by releasing already explored parts of the searc
 
 # Evaluation
 
-Hard instances generally exhibit low area waste (\epsilon) between 2% and 7%, see the original paper. Particularly difficult are instances where all items are smaller than half the container dimensions, see [ktnr/BinPacking2D/BPP-Subproblems](https://github.com/ktnr/BinPacking2D/tree/master/data/input/OPP/BPP-Subproblems).
+Hard instances generally exhibit low area waste ($\epsilon$) between 2% and 7%, see the original paper. Particularly difficult are instances where all items are smaller than half the container dimensions, see [ktnr/BinPacking2D/BPP-Subproblems](https://github.com/ktnr/BinPacking2D/tree/master/data/input/OPP/BPP-Subproblems).
 
 This repository cannot replicate the performance (number of explored nodes for infeasible instances) of the original paper, not even the performance of the simplest version without block equivalence and pseudo symmetry reductions. So, there might still be a bug in the code, inefficiencies, or invalid assumptions. If you happen to have knowledge about implementation details of the original paper, please do get in touch.
 
