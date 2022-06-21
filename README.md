@@ -1,4 +1,4 @@
-# Nested tree-search for two-dimensional orthogonal packing problems
+# Nested tree-search for two-dimensional orthogonal packing problems [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6673875.svg)](https://doi.org/10.5281/zenodo.6673875)
 
 This repository is an attempt to reproduce the nested branch-and-bound algorithm by Clautiaux, Carlier and Moukrim (2007) to solve two-dimensional orthogonal packing problems (2D-OPP). 
 
